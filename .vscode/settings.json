@@ -1,0 +1,12 @@
+{
+  "debug.enableStatusBarColor": false,
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "typescript.enablePromptUseWorkspaceTsdk": true,
+  "editor.quickSuggestions": {
+    "other": true,
+    "comments": false,
+    "strings": true
+  },
+  "editor.suggestOnTriggerCharacters": true,
+  "js/ts.tsdk.path": "node_modules/typescript/lib"
+}

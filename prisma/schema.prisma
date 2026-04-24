@@ -1,0 +1,82 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider     = "prisma-client"
+  output       = "../src/generated/prisma"
+  moduleFormat = "cjs"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model TipoProducto { 
+  id         Int       @id @default(autoincrement())
+  nombre      String
+  descripcion String
+  productos   Producto[]
+}
+
+model Producto {
+  id          Int       @id @default(autoincrement())
+  nombre      String
+  tipoProductoId Int
+  descripcion String
+  precio      Float
+  stock       Int
+  tipoProducto TipoProducto @relation(fields:tipoProductoId, references: [id])
+  comprasDetalles ComprasDetalles[]
+}
+
+model Compras {
+  id        Int      @id @default(autoincrement())
+  cantidad  Int
+  precio    Float
+  fecha     DateTime @default(now())
+  usuarioId Int
+  usuario   Usuario  @relation(fields: [usuarioId], references: [id])
+  comprasDetalles ComprasDetalles[]
+}
+
+model ComprasDetalles { 
+  id        Int      @id @default(autoincrement())
+  compraId  Int
+  productoId   Int
+  producto     Producto @relation(fields: [productoId], references: [id])
+  compra       Compras  @relation(fields: [compraId], references: [id])
+}
+
+model Rol { 
+  id      Int     @id @default(autoincrement())
+  nombre  String
+  rolAcciones    RolAcciones[]
+}
+
+model Vistas { 
+  id   Int     @id @default(autoincrement())
+  nombre String
+  rolAcciones  RolAcciones[]
+}
+
+model RolAcciones { 
+  id    Int     @id @default(autoincrement())
+  rolId Int
+  Accion String
+  vistaId Int
+  vista  Vistas  @relation(fields: [vistaId], references: [id])
+  rol   Rol     @relation(fields: [rolId], references: [id])
+}
+
+model Usuario {
+  id        Int       @id @default(autoincrement())
+  nombre    String
+  usuario   String
+  password  String
+  email     String
+  telefono  String
+  direccion String
+  compras   Compras[]
+}
