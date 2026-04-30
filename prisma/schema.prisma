@@ -51,7 +51,9 @@ model ComprasDetalles {
 model Rol {
   id          Int           @id @default(autoincrement())
   nombre      String
+  descripcion String?
   rolAcciones RolAcciones[]
+  usuarios    Usuario[]
 }
 
 model Vistas {
@@ -72,10 +74,12 @@ model RolAcciones {
 model Usuario {
   id        Int       @id @default(autoincrement())
   nombre    String
-  usuario   String
+  usuario   String?
   password  String
   email     String
-  telefono  String
-  direccion String
+  telefono  String?
+  direccion String?
+  rolId     Int?
+  rol       Rol?      @relation(fields: [rolId], references: [id])
   compras   Compras[]
 }

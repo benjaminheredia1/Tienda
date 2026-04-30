@@ -2,12 +2,11 @@ import { createZodDto } from 'nestjs-zod';
 import { z } from 'zod';
 
 export const CreateTipoProductoDtoSchema = z.object({
-  nombre: z.string('El nombre debe ser una cadena de texto'),
-  descripcion: z
-    .string('La descripción debe ser una cadena de texto')
-    .optional(),
+  nombre: z.string({ message: 'El nombre es requerido' }).describe('Nombre del tipo de producto'),
+  descripcion: z.string().optional().describe('Descripción del tipo de producto'),
 });
 
-export class CreateTipoProductoDto extends createZodDto(
-  CreateTipoProductoDtoSchema,
-) {}
+export class CreateTipoProductoDto extends createZodDto(CreateTipoProductoDtoSchema) {}
+
+export const UpdateTipoProductoDtoSchema = CreateTipoProductoDtoSchema.partial();
+export class UpdateTipoProductoDto extends createZodDto(UpdateTipoProductoDtoSchema) {}
